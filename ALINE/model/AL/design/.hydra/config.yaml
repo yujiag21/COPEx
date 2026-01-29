@@ -1,0 +1,91 @@
+seed: 123
+max_epoch: 200000
+burning_epoch: 20000
+batch_size: 200
+min_T: 50
+T: 50
+time_token: false
+optimizer: AdamW
+lr: 0.001
+scheduler: CosineAnnealing
+scheduler_args:
+  T_0: 1000
+  T_mult: 2
+loss: NMLELoss
+gamma: 0.7
+alpha: 1
+beta: 1
+fix_seed: true
+clip_grads: true
+design_type: random
+verbose: 500
+device: cuda
+checkpoint: 5000
+load_checkpoint: false
+checkpoint_name: ckpt_al_2d.tar
+output_dir: ./outputs
+file_name: aline_al_2d.pth
+L: 50000
+M: 2000
+eval_batch_size: 500
+L_final: 10000000
+M_final: 2000
+eval_batch_size_final: 5
+n_query_final: 2000
+T_final: 50
+wandb:
+  group: ${task.name}
+  project: aline
+  use_wandb: false
+  run_name: ${task.name}-${task.dim_x}D-${now:%Y-%m-%d_%H-%M}
+encoder:
+  _target_: ALINE.design_model.encoder.Encoder
+  dim_embedding: 32
+  dim_feedforward: 128
+  n_head: 4
+  dropout: 0.0
+  num_layers: 3
+embedder:
+  _target_: ALINE.design_model.embedder.Embedder
+  dim_x: ${task.dim_x}
+  dim_y: ${task.dim_y}
+  dim_embedding: ${encoder.dim_embedding}
+  dim_feedforward: ${encoder.dim_feedforward}
+  n_target_theta: ${task.n_target_theta}
+  embedding_type: ${task.embedding_type}
+head:
+  _target_: ALINE.design_model.head.OutputHead
+  dim_x: ${task.dim_x}
+  dim_y: ${task.dim_y}
+  dim_embedding: ${encoder.dim_embedding}
+  dim_feedforward: ${encoder.dim_feedforward}
+  num_components: 10
+  single_head: false
+  std_min: 0.0001
+  value_head: false
+  time_token: ${time_token}
+task:
+  _target_: ALINE.tasks.gaussian_process.GPTask
+  name: AL_data
+  dim_x: 2
+  dim_y: 1
+  embedding_type: data
+  mask_type:
+  - all
+  n_selected_targets: null
+  predefined_masks: null
+  predefined_mask_weights: null
+  mask_index: null
+  attend_to: null
+  n_context_init: 1
+  n_query_init: 200
+  n_target_data: 200
+  n_target_theta: 3
+  design_scale: 5
+  noise_scale: 0.01
+  lengthscale_lower: 0.1
+  lengthscale_upper: 2.0
+  min_n_context: 1
+  max_n_context: 50
+eval:
+  EIG: false

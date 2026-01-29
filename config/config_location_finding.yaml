@@ -1,0 +1,63 @@
+
+defaults:
+  - optimizer: slsqp # slsqp, lbfgsb, None
+  - warmstart: default
+  - experiment: location_finding
+  - paths: location_finding
+  - task: location_finding_budgeted
+  - embedder: embedder
+  - encoder: encoder
+  - head: head
+  - _self_
+#location_finding
+
+acquisition_function: acquisition_functions.eig_acquisition.ACEInfoGain
+
+task:
+  dim_x: 2
+
+optimizer:
+  lower_bound: 0.0
+  upper_bound: 1.0
+  optimize_mode: hard # hard, soft, none
+  # method: design_only, random,
+
+experiment:
+  trial: 50
+  verbose: 2
+  budget: 30.0
+  n_init_evals: 1
+  dim: 2
+  step_size: 0.1 # 0.1,0.2,0.5
+  lookahead_n_fantasies: 2
+  n_fantasies: 3
+  n_y: 20
+  discount_factor: 0.6
+  fantasized_with_model: false
+  cost_mode: ~
+  constraint_mode: linf
+  n_step: 30
+
+warmstart:
+  n_random: 0
+  n_optimal: 1
+  top_k_starts: 1
+
+
+device: "cuda"
+fix_seed: true
+seed: 42
+time_token: false
+
+paths:
+  save_path: location_finding
+  save_folder: location_finding
+
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: outputs/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
+  job:
+    chdir: false

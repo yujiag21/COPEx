@@ -1,0 +1,13 @@
+- task=location_finding
+- batch_size=100
+- gamma=0.9
+- beta=0.5
+- lr=1e-3
+- task.n_query_init=800
+- eval_batch_size=1000
+- max_epoch=100000
+- burning_epoch=20000
+- L_final=1000000
+- eval_batch_size_final=200
+- n_query_final=2000
+- T_final=30

@@ -1,0 +1,90 @@
+seed: 42
+max_epoch: 100000
+burning_epoch: 20000
+batch_size: 100
+T: 30
+time_token: false
+optimizer: AdamW
+lr: 0.001
+scheduler: CosineAnnealing
+scheduler_args:
+  T_0: 1000
+  T_mult: 2
+gamma: 0.9
+alpha: 1
+beta: 0.5
+fix_seed: true
+clip_grads: true
+design_type: random
+verbose: 500
+device: cuda
+checkpoint: 100
+load_checkpoint: false
+load_path: null
+checkpoint_name: ckpt.tar
+L: 50000
+M: 2000
+eval_batch_size: 1000
+L_final: 1000000
+M_final: 2000
+eval_batch_size_final: 200
+n_query_final: 2000
+T_final: 30
+run_id: 1
+output_dir: ./outputs/design_model
+file_name: aae_${task.name}_d${task.dim_x}_${run_id}.pth
+wandb:
+  group: ${task.name}-design_model
+  project: aline
+  use_wandb: false
+  run_name: ${task.name}-${task.dim_x}D-${now:%Y-%m-%d_%H-%M}
+encoder:
+  _target_: ALINE.design_model.encoder.Encoder
+  dim_embedding: 32
+  dim_feedforward: 128
+  n_head: 4
+  dropout: 0.0
+  num_layers: 3
+embedder:
+  _target_: ALINE.design_model.embedder.Embedder
+  dim_x: ${task.dim_x}
+  dim_y: ${task.dim_y}
+  dim_embedding: ${encoder.dim_embedding}
+  dim_feedforward: ${encoder.dim_feedforward}
+  n_target_theta: ${task.n_target_theta}
+  embedding_type: ${task.embedding_type}
+head:
+  _target_: ALINE.design_model.head.OutputHead
+  dim_x: ${task.dim_x}
+  dim_y: ${task.dim_y}
+  dim_embedding: ${encoder.dim_embedding}
+  dim_feedforward: ${encoder.dim_feedforward}
+  num_components: 10
+  single_head: false
+  std_min: 0.0001
+  value_head: false
+  time_token: ${time_token}
+task:
+  _target_: tasks.location_finding.HiddenLocation
+  name: Location
+  dim_x: 2
+  dim_y: 1
+  embedding_type: theta
+  mask_type:
+  - all
+  n_selected_targets: null
+  predefined_masks: null
+  predefined_mask_weights: null
+  mask_index: null
+  attend_to: null
+  n_target_data: 0
+  n_target_theta: 2
+  n_context_init: 1
+  n_query_init: 800
+  K: 1
+  theta_dist: uniform
+  design_scale: 1
+  outcome_scale: 10
+  noise_scale: 0.5
+  base_signal: 0.1
+  max_signal: 0.0001

@@ -1,0 +1,11 @@
+
+
+model_path: ALINE/models/location_finding/inference/inference_model.pth
+
+design_model_path: ALINE/models/location_finding/design/design_model.pth
+
+config_name: train_prediction_only
+
+design_config_name: train_bed
+
+save_path: results/location_finding

@@ -1,0 +1,67 @@
+defaults:
+  - optimizer: slsqp
+  - warmstart: default 
+  - experiment: ces #location_finding
+  - paths: ces #location_finding
+  - task: ces
+  - embedder: embedder
+  - encoder: encoder
+  - head: head
+  - _self_
+
+experiment:
+  trial: 13
+  verbose: 1
+  budget: 200.0
+  n_init_evals: 1
+  dim: 6
+  step_size: null
+  n_step: 10
+  # Algorithm parameters (merged from algorithm config)
+  lookahead_n_fantasies: 2
+  n_fantasies: 1
+  n_y: 40
+  discount_factor: 0.6
+  fantasized_with_model: false
+  cost_mode: l2_dist
+  constraint_mode: None
+
+warmstart:
+  n_random: 25
+  n_optimal: 5
+  top_k_starts: 2
+
+paths:
+  model_path: ALINE/models/ces/inference/inference_model.pth
+  design_model_path: ALINE/models/ces/design/design_model.pth
+  config_name: train_prediction_design_ces
+  design_config_name: train_ces
+  save_path: temp
+  save_folder: ces
+
+optimizer:
+  lower_bound: 0.0
+  upper_bound: 100.0
+  optimize_mode: budget # hard, soft, none
+  soft_constraint_weight: 3 # weight for soft constraint: obj / (1 + weight * dist)
+
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: outputs/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
+  job:
+    chdir: false
+
+# n_y: 20, 50
+# n_random: 30, 70
+# top_k_starts: 4, 10
+# lookahead_n_fantasies: 0, 1, 2
+
+# ALINE/outputs/2025-12-22/13-46-39/ckpt_38000.tar
+
+device: "cuda"
+fix_seed: true
+seed: 42
+time_token: false

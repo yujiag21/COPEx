@@ -1,0 +1,33 @@
+_target_: tasks.al_benchmarks.BenchmarkTask
+
+name: AL_benchmark
+
+dim_x: 1
+dim_y: 1
+
+# Benchmark function name
+# 1D: forrester, gramacy1d, higdon
+# 2D: branin, gramacy2d, ackley2d, rosenbrock2d, three_hump_camel, holder_table, goldstein_price
+benchmark_name: forrester
+
+# Target mask parameters (for compatibility)
+embedding_type: data
+mask_type: ["all"]
+n_selected_targets: null
+predefined_masks: null
+predefined_mask_weights: null
+mask_index: null
+attend_to: null
+
+n_context_init: 1
+n_query_init: 200
+
+n_target_data: 200
+n_target_theta: 0
+
+design_scale: 5.0
+noise_scale: 0.01
+
+min_n_context: 1
+max_n_context: 30
+

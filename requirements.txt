@@ -1,0 +1,28 @@
+# Core
+torch
+botorch
+gpytorch
+pyro-ppl
+linear-operator
+
+# Hydra & config
+hydra-core
+omegaconf
+
+# Scientific computing
+numpy
+scipy
+scikit-learn
+pandas
+
+# Visualization
+matplotlib
+seaborn
+
+# Utilities
+termcolor
+wandb
+attrdictionary
+
+ipykernel
+tqdm

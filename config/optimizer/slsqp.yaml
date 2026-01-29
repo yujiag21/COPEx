@@ -1,0 +1,17 @@
+# SLSQP optimizer parameters
+# @package _global_.optimizer
+
+method: slsqp
+
+maxiter: 600
+
+fd_eps: 1.0e-4
+
+bounds_eps: 0.008
+
+boundary_penalty_weight: 0.01
+
+trust_region_radius: 0.0
+
+# soft constraint weight: obj / (1 + weight * dist)
+soft_constraint_weight: 1.0

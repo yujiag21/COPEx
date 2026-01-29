@@ -1,0 +1,17 @@
+# L-BFGS-B optimizer parameters
+# @package _global_.optimizer
+
+method: lbfgsb
+
+maxiter: 600
+
+fd_eps: 1.0e-4
+
+lower_bound: 0.0
+upper_bound: 1.0
+
+bounds_eps: 0.0
+
+boundary_penalty_weight: 0.01
+
+trust_region_radius: 0.0
