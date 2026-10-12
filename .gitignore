@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+
+# Experiment outputs (Hydra run directories, results, logs)
+outputs/
+results/
+logs/
+wandb/
+
+# Editors and notebooks
+.ipynb_checkpoints/
+.idea/
+.vscode/
+.DS_Store
+
+# Plotting scripts (kept locally, not committed)
+scripts/plot_*.py
+*.pdf
+
+
+# GP baselines of the AL experiments (kept locally, not committed)
+baselines/
+scripts/run_gp_baseline.py
+
+# Result summaries (kept locally, not committed)
+scripts/compare_al_budget.py
+scripts/summarize_results.py

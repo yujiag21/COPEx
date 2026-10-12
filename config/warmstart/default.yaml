@@ -1,0 +1,8 @@
+# Warmstart initialization parameters
+# @package _global_.warmstart
+
+n_random: 20
+
+n_optimal: 5
+
+top_k_starts: 4

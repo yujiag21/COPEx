@@ -1,0 +1,14 @@
+- task=al_data_design
+- max_epoch=200000
+- burning_epoch=20000
+- task.dim_x=2
+- task.n_target_theta=3
+- task.n_query_init=200
+- task.lengthscale_lower=0.1
+- task.lengthscale_upper=2.0
+- task.design_scale=5
+- gamma=0.7
+- file_name=aline_al_2d.pth
+- checkpoint_name=ckpt_al_2d.tar
+- min_T=50
+- T=50

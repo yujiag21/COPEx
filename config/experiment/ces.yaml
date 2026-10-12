@@ -1,0 +1,26 @@
+# CES experiment configuration
+# @package _global_.experiment
+
+trial: 1
+
+verbose: 1
+
+budget: 30.0
+
+n_init_evals: 1
+
+dim: 6
+
+step_size: 1.0
+
+n_step: 10
+
+lookahead_n_fantasies: 1
+
+n_fantasies: 2
+
+n_y: 20
+
+discount_factor: 0.4
+
+fantasized_with_model: false

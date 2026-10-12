@@ -1,0 +1,86 @@
+task:
+  _target_: tasks.location_finding_budgeted.HiddenLocation
+  name: Location_budgeted
+  dim_x: 2
+  dim_y: 1
+  embedding_type: mix
+  mask_type:
+  - all
+  n_selected_targets: null
+  predefined_masks: null
+  predefined_mask_weights: null
+  mask_index: null
+  attend_to: null
+  n_target_data: 0
+  n_target_theta: 2
+  n_context_init: 1
+  min_n_context: 1
+  max_n_context: 30
+  K: 1
+  theta_dist: uniform
+  design_scale: 1
+  outcome_scale: 10
+  noise_scale: 0.5
+  base_signal: 0.1
+  max_signal: 0.0001
+embedder:
+  _target_: ALINE.model.embedder.Embedder
+  dim_x: ${task.dim_x}
+  dim_y: ${task.dim_y}
+  dim_embedding: ${encoder.dim_embedding}
+  dim_feedforward: ${encoder.dim_feedforward}
+  n_target_theta: ${task.n_target_theta}
+  embedding_type: ${task.embedding_type}
+encoder:
+  _target_: ALINE.model.encoder.Encoder
+  dim_embedding: 32
+  dim_feedforward: 128
+  n_head: 4
+  dropout: 0.0
+  num_layers: 3
+  n_target_theta: ${task.n_target_theta}
+head:
+  _target_: ALINE.model.head.OutputHead
+  dim_x: ${task.dim_x}
+  dim_y: ${task.dim_y}
+  dim_embedding: ${encoder.dim_embedding}
+  dim_feedforward: ${encoder.dim_feedforward}
+  num_components: 10
+  single_head: false
+  std_min: 0.0001
+  value_head: false
+  time_token: ${time_token}
+prediction_only: true
+batch_size: 64
+max_epoch: 10000
+verbose: 10
+lr: 0.0001
+optimizer: Adam
+clip_grads: true
+device: cuda
+fix_seed: true
+seed: 42
+output_dir: ./outputs/train_with_design
+file_name: prediction_model.pth
+checkpoint_name: ckpt.tar
+wandb:
+  use_wandb: true
+  project: prediction_training
+  run_name: location_prediction
+  group: prediction_only
+load_checkpoint: false
+checkpoint: 100
+T: 1
+T_final: 1
+L: 100
+M: 100
+L_final: 1000
+M_final: 1000
+eval_batch_size: 32
+eval_batch_size_final: 32
+n_query_final: 100
+time_token: false
+burning_epoch: 0
+alpha: 1.0
+beta: 1.0
+gamma: 0.9

@@ -1,0 +1,61 @@
+# Prediction-only training configuration
+defaults:
+  - task: ces #location_finding_budgeted
+  - embedder: embedder
+  - encoder: encoder
+  - head: head
+  - _self_
+
+acquisition_function: acquisition_functions.multi_step_lookahead.qMultiStepLookaheadEIG
+
+# Training mode settings
+prediction_only: true  # Enable prediction-only mode
+n_step: 10
+
+# Training parameters
+batch_size_random: 32
+batch_size_design: 64
+max_epoch: 1000
+verbose: 1
+
+# Learning rate settings
+lr: 1e-4
+optimizer: "Adam"
+clip_grads: true
+
+# Device settings
+device: "cuda"
+fix_seed: true
+seed: 42
+
+# Output settings
+output_dir: "ALINE/outputs/ces/train_with_design"
+file_name: "prediction_model.pth"
+checkpoint_name: ckpt.tar
+
+# Wandb settings
+wandb:
+  use_wandb: true 
+  project: "prediction_training"
+  run_name: "ces"
+  group: "prediction_with_design"
+
+# Checkpoint settings
+load_checkpoint: false
+checkpoint: 100
+
+# Unused but kept for compatibility
+T: 1
+T_final: 1
+L: 100
+M: 100
+L_final: 1000
+M_final: 1000
+eval_batch_size: 32
+eval_batch_size_final: 32
+n_query_final: 100
+time_token: false
+burning_epoch: 0
+alpha: 1.0
+beta: 1.0
+gamma: 0.9 

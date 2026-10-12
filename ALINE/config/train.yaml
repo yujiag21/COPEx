@@ -1,0 +1,66 @@
+defaults:
+  - _self_
+  - encoder: encoder_design
+  - embedder: embedder_design
+  - head: head_design
+  - task: al_data_design
+  - eval: default
+
+seed: 123
+
+max_epoch: 100000
+burning_epoch: 10000
+batch_size: 200
+
+min_T: 50
+T: 50
+time_token: False
+
+# Optimizer
+optimizer: AdamW
+lr: 1e-3
+
+# Scheduler
+scheduler: CosineAnnealing #WarmRestarts
+scheduler_args: {T_0: 1000, T_mult: 2}
+
+# Loss
+loss: NMLELoss
+gamma: 0.9
+alpha: 1
+beta: 1
+
+# Training
+fix_seed: True
+clip_grads: True
+design_type: random
+verbose: 500
+device: cuda
+checkpoint: 5000   # 0 if no checkpoint
+load_checkpoint: False
+checkpoint_name: ckpt.tar
+
+# Output
+output_dir: ./outputs
+file_name: aae_${task.name}.pth
+
+L: 50000
+M: 2000
+eval_batch_size: 500
+# final eval
+L_final: 10000000
+M_final: 2000
+eval_batch_size_final: 5
+n_query_final: 2000
+T_final: 50
+
+##### W&B config #####
+wandb:
+  group: ${task.name}
+  project: "aline"
+  use_wandb: False
+  run_name: ${task.name}-${task.dim_x}D-${now:%Y-%m-%d_%H-%M}
+
+hydra:
+  run:
+    dir: outputs/hydra/${task.name}/${now:%Y-%m-%d}/${now:%H-%M-%S}

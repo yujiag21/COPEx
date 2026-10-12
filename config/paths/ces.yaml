@@ -1,0 +1,9 @@
+model_path: ALINE/model/ces/inference/inference_model.pth
+ 
+design_model_path: ALINE/model/ces/design/design_model.tar
+
+config_name: train_prediction_design_ces
+
+design_config_name: train_ces
+
+save_path: results/ces
